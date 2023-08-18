@@ -3,12 +3,12 @@ import Foundation
 protocol AsyncLooper: Actor {
     var name: String { get }
     var excutor: UnownedSerialExecutor { get }
-    func loop() async
+    func loop()
 }
 
 extension AsyncLooper {
     var excutor: UnownedSerialExecutor { unownedExecutor }
-    func loop() async {
+    func loop() {
         (1...10).forEach { _ in
             print("\(name) is running on Main Thread? \(Thread.isMainThread)")
             //dump(excutor)
@@ -24,7 +24,7 @@ actor LocalLooper: AsyncLooper {
 extension LocalLooper {
     static let shared = LocalLooper()
     // Where should you be ? MainActor ?
-    nonisolated func nonLocalLoop() async {
+    nonisolated func nonLocalLoop() {
         (1...100).forEach { _ in
             print("Nonlocal actor is running on Main Thread? \(Thread.isMainThread)")
         }
