@@ -51,13 +51,18 @@ func loop() async {
 //    }
 //}
 
-// Is Playground in MainActor ??
-//Task {
-//    (1...10).forEach { _ in
-//        print("No actor context and not detached is running on Main Thread? \(Thread.isMainThread)")
-//    }
-//}
+// Is Playground in MainActor ?? may or may not
+// Weired behaviour, below task some times will be excuted in main actor, some times will not, it appears choice is random
+Task {
+    (1...10).forEach { _ in
+        print("No actor context and not detached is running on Main Thread? \(Thread.isMainThread)")
+    }
+}
 
 async let _ = LocalLooper.shared.nonLocalLoop()
-async let _ = loop()
-// note: nonisloated excution will interleave with detached excution, they do not share excutor.
+//async let _ = loop()
+////async let _ = loop()
+//Task {
+//    await loop()
+//}
+// note: nonisloated excution sometimes will interleave with detached excution, they may not share excutor.
