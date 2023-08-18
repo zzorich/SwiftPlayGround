@@ -35,22 +35,21 @@ extension MainActor: AsyncLooper {
     var name: String { "Main looper" }
 }
 
-func loop() async -> String {
+func loop() async {
     (1...10).forEach { _ in
         print("No actor context is running on Main Thread? \(Thread.isMainThread)")
     }
-    return ""
 }
 
 //async let _ = LocalLooper.shared.loop()
 //async let _ = MainActor.shared.loop()
 
 // Should not in MainActor
-Task.detached {
-    (1...100).forEach { _ in
-        print("No actor context and detached is running on Main Thread? \(Thread.isMainThread)")
-    }
-}
+//Task.detached {
+//    (1...100).forEach { _ in
+//        print("No actor context and detached is running on Main Thread? \(Thread.isMainThread)")
+//    }
+//}
 
 // Is Playground in MainActor ??
 //Task {
@@ -60,4 +59,5 @@ Task.detached {
 //}
 
 async let _ = LocalLooper.shared.nonLocalLoop()
+async let _ = loop()
 // note: nonisloated excution will interleave with detached excution, they do not share excutor.
